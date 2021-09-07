@@ -1,0 +1,274 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'dart:io';
+import '../constants.dart';
+import '../strings.dart';
+import 'menu.dart';
+
+//String Url = 'https://algirdaspuisys.com/';
+
+bool outApp = false;
+WebViewController _myController;
+
+var counter = 1;
+class PlayWithComputer extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+
+}
+
+class _HomePageState extends State<PlayWithComputer> {
+  final webviewPlugin = FlutterWebviewPlugin() ;
+  Map _source = {ConnectivityResult.none: false};
+  MyConnectivity _connectivity = MyConnectivity.instance;
+
+  Timer timer;
+
+  @override
+  void initState() {
+    _connectivity.initialise();
+      _connectivity.myStream.listen((source) {
+        if (mounted) {setState(() => _source = source);}
+        print("добавляем листенер");
+      });
+    timer = new Timer.periodic(Duration(seconds: 10), (timer) {
+    });
+    super.initState();
+    //webviewPlugin.clearCache();webviewPlugin.cleanCookies();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    String string = "";
+    switch (_source.keys.toList()[0]) {
+      case ConnectivityResult.none:
+        string = "Отсутсвует связь!";
+        return Scaffold(
+          backgroundColor: kBlue,
+          body: Center(child: LinearProgressIndicator()/*Text("$string", style: TextStyle(fontSize: 36),textAlign: TextAlign.center,)*/),
+        );
+        break;
+      case ConnectivityResult.mobile:
+        string = "Мобильные данные";
+        return Scaffold(
+          backgroundColor: kBlue,
+          extendBodyBehindAppBar: true, body: WebviewScaffold(
+          clearCache: false, clearCookies: false, mediaPlaybackRequiresUserGesture: true, enableAppScheme: false, userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0',
+          resizeToAvoidBottomInset: true,
+          withZoom: true,
+          useWideViewPort: true,
+          withOverviewMode: true,
+          withLocalStorage: true,
+          appCacheEnabled: true,
+          withJavascript: true,
+          primary: true,
+          hidden: true,
+          initialChild: Container(
+            color: kBlue,
+            child: const Center(
+              child: Text('waiting...'),
+            ),),
+          appBar:AppBar(
+            elevation: 0.0,
+            title: Text(
+              s175,
+              style: TextStyle(
+                color: kWhite,
+                fontFamily: 'AlS Hauss',
+                fontSize: 12.8,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            brightness: Brightness.dark,
+            /*leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      webviewPlugin.hide();
+                    });
+                    const twentyMillis = const Duration(seconds:3);
+                    new Timer(twentyMillis, () {webviewPlugin.show(); menuShow == true ? Navigator.of(context).pop() : null;});
+                    showMenuSlider(context);
+                  },
+                  child: Container(
+                    height: 44,
+                    width: 44,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: kWhite1),
+                    ),
+                    child: Icon(
+                      Icons.menu,
+                      color: kWhite,
+                    ),
+                  ),
+                ),
+              ],
+            ),*/
+            actions: [],
+          ),
+          ignoreSSLErrors: true,
+          url: Url,
+        ));
+        break;
+      case ConnectivityResult.wifi:
+        string = "Подключено к WiFi";
+        return Scaffold(
+            backgroundColor: kBlue,
+            extendBodyBehindAppBar: true, body:WebviewScaffold(
+          clearCache: false, clearCookies: false, mediaPlaybackRequiresUserGesture: true, enableAppScheme: false, userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0',
+          //supportMultipleWindows: true,
+          resizeToAvoidBottomInset: true,
+          withZoom: true,
+          useWideViewPort: true,
+          //allowFileURLs: true,
+          withOverviewMode: true,
+          //withLocalUrl: true,
+          withLocalStorage: true,
+          appCacheEnabled: true,
+          withJavascript: true,
+          primary: true,
+          hidden: true,
+          initialChild: Container(
+            color: kBlue,
+            child: const Center(
+              child: Text('waiting...'),
+            ),),
+          //withZoom: false,
+          appBar:AppBar(
+            elevation: 0.0,
+            title: Text(
+              s175,
+              style: TextStyle(
+                color: kWhite,
+                fontFamily: 'AlS Hauss',
+                fontSize: 12.8,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            brightness: Brightness.dark,
+            /*leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      webviewPlugin.hide();
+                      menuShow = true;
+                    });
+                    const twentyMillis = const Duration(seconds:3);
+                    new Timer(twentyMillis, () {webviewPlugin.show();  menuShow == true ? Navigator.of(context).pop() : null;});
+                    showMenuSlider(context);
+                  },
+                  child: Container(
+                    height: 44,
+                    width: 44,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: kWhite1),
+                    ),
+                    child: Icon(
+                      Icons.menu,
+                      color: kWhite,
+                    ),
+                  ),
+                ),
+              ],
+            ),*/
+            actions: [],
+          ),
+            ignoreSSLErrors: true,
+            url: Url,
+                //body: MyWebView(selectedUrl: Url),
+              ));
+        break;
+    }
+  }
+
+  @override
+  void dispose() {
+    //_connectivity.disposeStream();
+    webviewPlugin.dispose();
+    timer.cancel();
+    super.dispose();
+  }
+}
+
+
+//запускаем сайт
+class MyConnectivity {
+  MyConnectivity._internal();
+  static final MyConnectivity _instance = MyConnectivity._internal();
+  static MyConnectivity get instance => _instance;
+  Connectivity connectivity = Connectivity();
+  StreamController controller = StreamController.broadcast();
+  Stream get myStream => controller.stream;
+  void initialise() async {
+    ConnectivityResult result = await connectivity.checkConnectivity();
+    _checkStatus(result);
+    connectivity.onConnectivityChanged.listen((result) {
+      _checkStatus(result);
+    });
+  }
+
+  void _checkStatus(ConnectivityResult result) async {
+    bool isOnline = false;
+    try {
+      final result = await InternetAddress.lookup('https://10.95.0.65');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        isOnline = true;
+      } else
+        isOnline = false;
+    } on SocketException catch (_) {
+      isOnline = false;
+    }
+    controller.sink.add({result: isOnline});
+  }
+
+  void disposeStream() => controller.close();
+}
+
+class MyWebView extends StatelessWidget {
+
+  String selectedUrl;
+  //final flutterWebviewPlugin = new FlutterWebviewPlugin();
+  final Completer<WebViewController> _controller =
+  Completer<WebViewController>();
+
+
+  MyWebView({
+    @required this.selectedUrl,
+  });
+
+  //создаем тело виджета
+  @override
+  Widget build(BuildContext context) {
+    return WebView(
+      onWebResourceError: (value) => print(value.description),
+            debuggingEnabled: true,
+            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0',
+            initialUrl: selectedUrl,
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+              _myController = webViewController;
+            },
+            onPageFinished: (url){
+              print(url);
+            }
+        );
+  }
+}

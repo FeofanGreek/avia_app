@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+import 'constants.dart';
+
+var st1 = TextStyle(fontSize: 16,fontFamily: 'AlS Hauss',);
+var st2 = TextStyle(fontSize: 14,fontFamily: 'AlS Hauss', color: kWhite3);
+var st3 = TextStyle(color: kYellow,fontFamily: 'AlS Hauss', fontSize: 16);
+var st4 = TextStyle(fontSize: 13.5,fontFamily: 'AlS Hauss',);
+var st5 = TextStyle(fontSize: 15,fontFamily: 'AlS Hauss', color: kWhite3);
+var st6 = TextStyle(fontSize: 14,fontFamily: 'AlS Hauss',color: kYellow);
+var st7 = TextStyle(fontSize: 14,fontFamily: 'AlS Hauss',color: kRed);
+var st8 = TextStyle(fontSize: 16,fontFamily: 'AlS Hauss', color: kWhite3);
+var st9 = TextStyle(fontSize: 13,fontFamily: 'AlS Hauss', color: kWhite3);
+var st10 = TextStyle(fontSize: 16,fontFamily: 'AlS Hauss',color: kYellow);
+var st11 = TextStyle(fontSize: 16.0,fontFamily: 'AlS Hauss', color:  kWhite,);
+var st12 = TextStyle(fontSize: 16,fontFamily: 'AlS Hauss',color: kYellow);
+var st13 = TextStyle(fontSize: 21.0,fontFamily: 'AlS Hauss', color:  kWhite,);
+var st14 = TextStyle(fontSize: 14.0,fontFamily: 'AlS Hauss', color:  kWhite2,);
+var st15 = TextStyle(fontSize: 16,fontFamily: 'AlS Hauss',color: kRed);
+var st16 = TextStyle(fontSize: 16,fontFamily: 'AlS Hauss',color: kWhite2);
+var st17 = TextStyle(fontSize: 14.0,fontFamily: 'AlS Hauss', color:  kWhite,);
+var st18 = TextStyle(fontSize: 16,fontFamily: 'AlS Hauss', color: Color(0xFF337AD9));
